@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
@@ -6,8 +7,9 @@ const authRoutes = require("./routes/authRoutes")
 const app = express()
 const port = 3000
 
-// serving static files middlewar
+// serving static files middleware
 app.use(express.static("public"))
+app.use(express.json())
 
 // connect app to mongoose 
 mongoose.connect("mongodb://localhost/users", {
@@ -17,14 +19,14 @@ mongoose.connect("mongodb://localhost/users", {
 const User = require("./models/User")
 
 // BodyParser middlewear 
-app.use(bodyParser. urlencoded({extended: true}))
 // Parse application/json
+app.use(bodyParser. urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 // set template engine 
 app.set("view engine", "ejs")
 
-// using auth router
+// using auth router such as login and registration
 app.use(authRoutes)
 
 // route for profile page 

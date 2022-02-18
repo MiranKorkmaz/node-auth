@@ -33,6 +33,8 @@ app.get("/register", (req,res) => {
     res.render("Register")
 })
 
+// route for profile page 
+
 app.listen(port, () => {
     console.log(`Port started on ${port}`)
 })

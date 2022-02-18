@@ -2,10 +2,11 @@ const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const multer = require("multer")
+const authRoutes = require("./routes/authRoutes")
 const app = express()
 const port = 3000
 
-// serving static files 
+// serving static files middlewar
 app.use(express.static("public"))
 
 // connect app to mongoose 
@@ -17,22 +18,14 @@ const User = require("./models/User")
 
 // BodyParser middlewear 
 app.use(bodyParser. urlencoded({extended: true}))
-
 // Parse application/json
 app.use(bodyParser.json())
 
 // set template engine 
 app.set("view engine", "ejs")
 
-// route for login page
-app.get("/login", (req,res) => {
-    res.render("Login")
-})
-
-// route for registration page 
-app.get("/register", (req,res) => {
-    res.render("Register")
-})
+// using auth router
+app.use(authRoutes)
 
 // route for profile page 
 app.get("/profile", (req, res) => {

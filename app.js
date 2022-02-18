@@ -1,6 +1,7 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
+const multer = require("multer")
 const app = express()
 const port = 3000
 
@@ -34,6 +35,9 @@ app.get("/register", (req,res) => {
 })
 
 // route for profile page 
+app.get("/profile", (req, res) => {
+    res.render("Profile")
+})
 
 app.listen(port, () => {
     console.log(`Port started on ${port}`)

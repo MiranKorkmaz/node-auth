@@ -2,10 +2,11 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
-const multer = require("multer")
+const cors = require("cors")
 const authRoutes = require("./routes/authRoutes")
 const app = express()
 const port = 3000
+app.use(cors())
 
 // serving static files middleware
 app.use(express.static("public"))
@@ -33,6 +34,7 @@ app.use(authRoutes)
 app.get("/profile", (req, res) => {
     res.render("Profile")
 })
+
 
 app.listen(port, () => {
     console.log(`Port started on ${port}`)

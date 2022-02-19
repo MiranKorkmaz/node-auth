@@ -1,5 +1,25 @@
 const User = require("../models/User");
 
+// a function for handling errors
+const handleErrors = (err) => {
+  console.log(err.message, err.code)
+  let errors = { firstName: "", lastName: "", userName: "", password: ""}
+  
+  // error message for unique username
+  if (err.code === 11000) {
+    errors.userName = "That username is already registered"
+    return errors
+  }
+
+  // Validaton error
+  if (err.message.includes("user validation failed")) {
+    Object.values(err.errors).forEach(({properties}) => {
+      errors[properties.path] = properties.message
+    })
+  }
+  return errors
+}
+
 // controller actions
 module.exports.register_get = (req, res) => {
   res.render('Register');
@@ -16,9 +36,11 @@ module.exports.register_post = async (req, res) => {
     // successfull status
     res.status(201).json(user)
   } catch(err) {
-    console.log(err)
-    // error status
-    res.status(400).send("User not created")
+    // returning handleErrors function
+    const errors = handleErrors(err)
+    // error status 
+    // sending errors as well
+    res.status(400).json({ errors })
   }
 }
 

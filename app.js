@@ -35,6 +35,12 @@ app.get("/profile", (req, res) => {
     res.render("Profile")
 })
 
+app.get("/", (req, res) => {
+    res.send("hiiiii")
+})
+
+app.use("User", require("./routes/authRoutes"))
+
 
 app.listen(port, () => {
     console.log(`Port started on ${port}`)

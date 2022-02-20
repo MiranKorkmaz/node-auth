@@ -1,4 +1,6 @@
 const mongoose = require("mongoose")
+const bcrypt = require("bcrypt")
+const express = require("express")
 
 const userSchema = new mongoose.Schema ({
     userName: {
@@ -25,9 +27,12 @@ const userSchema = new mongoose.Schema ({
 
 // creating a mongoose hook to fire a function after a new user has been saved to database 
 // post (after) saving --> fire function 
-userSchema.post("save", function (doc, next) {
-    console.log("new user created and saved", doc)
-    next()
+// hash password so it doesnt show in mongodb database
+// a salt is a random string
+userSchema.pre("save", async function (next) {
+    const salt = await bcrypt.genSalt()
+    this.password = await bcrypt.hash(this.password, salt)
+    next();
 })
 
 const User = mongoose.model("user", userSchema)

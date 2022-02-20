@@ -5,38 +5,51 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
-
-        <h2>Register</h2>
+    <div class="registration-body">
         <form action="/register" method="POST">
+            <h2>Register</h2>
+            <label for="firstName"></label>
             <input 
+                class="input"
                 type="text" 
                 name="firstName" 
                 id="firstName"
                 placeholder="Enter firstname"
             />
+            <div class="line-box"><div class="line"></div></div>
+            <label for="lastName"></label>
             <input 
+                class="input"
                 type="text" 
                 name="lastName" 
                 id="lastName"
                 placeholder="Enter lastname"
             />
+            <div class="line-box"><div class="line"></div></div>
+            <label for="userName"></label>
             <input 
+                class="input"
                 type="text" 
                 name="userName" 
                 id="userName"
                 placeholder="Choose a username"
             />
+            <div class="line-box"><div class="line"></div></div>
+            <label for="password"></label>
             <input 
+                class="input"
                 type="password"
                 name="password"
                 id="password"
                 placeholder="Choose a password"
             />
-            <button class="submit">Register</button>
+            <div class="line-box"><div class="line"></div></div>
+            <button class="button">Register</button>
         </form>
-    
+    </div>
     <script>
         const form = document.querySelector("form")
         form.addEventListener("submit", async (e) => {

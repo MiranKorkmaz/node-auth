@@ -23,6 +23,13 @@ const userSchema = new mongoose.Schema ({
     }
 })
 
+// creating a mongoose hook to fire a function after a new user has been saved to database 
+// post (after) saving --> fire function 
+userSchema.post("save", function (doc, next) {
+    console.log("new user created and saved", doc)
+    next()
+})
+
 const User = mongoose.model("user", userSchema)
 
 module.exports = User

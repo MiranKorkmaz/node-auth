@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema ({
 })
 
 // creating a mongoose hook to fire a function after a new user has been saved to database 
-// post (after) saving --> fire function 
+// pre saving --> fire function 
 // hash password so it doesnt show in mongodb database
 // a salt is a random string
 userSchema.pre("save", async function (next) {

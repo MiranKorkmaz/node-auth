@@ -28,14 +28,14 @@ const handleErrors = (err) => {
 }
 
 // max age for token, 30 days
-const maxAgeToken = 30 * 24 * 60 * 60 * 1000
+const maxAgeToken = 30 * 24 * 60 * 60 
 // create token
 // id comes from user in mongoDB
 const createToken = (id) => {
   // pass in payload which is ID
-  return jwt.sign({ id }, "miran's secret", {
-    expiresIn: maxAgeToken
-  })
+  return jwt.sign({
+    data: id, 
+  }, 'secret', { expiresIn: '1h' });
 }
 
 // controller actions

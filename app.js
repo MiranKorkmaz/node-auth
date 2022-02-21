@@ -7,6 +7,7 @@ const cors = require("cors")
 const authRoutes = require("./routes/authRoutes")
 const app = express()
 const port = 3000
+const login = require("./controllers/authController")
 
 
 // using middlewear
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
     res.send("hiiiii")
 })
 
+app.post("/login", login.login_post)
 
 
 app.use(authRoutes)

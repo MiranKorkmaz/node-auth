@@ -21,6 +21,17 @@ const handleErrors = (err) => {
   return errors
 }
 
+// max age for token, 30 days
+const maxAgeToken = 30 * 24 * 60 * 60
+// create token
+// id comes from user in mongoDB
+const createToken = (id) => {
+  // pass in payload which is ID
+  return jwt.sign({ id }, "miran's secret", {
+    expiresIn: maxAgeToken
+  })
+}
+
 // controller actions
 module.exports.register_get = (req, res) => {
   res.render('Register');
@@ -32,10 +43,13 @@ module.exports.login_get = (req, res) => {
 
 module.exports.register_post = async (req, res) => {
   const {firstName, lastName, userName, password } = req.body
+
   try {
     const user = await User.create({firstName, lastName, userName, password})
+    const token = createToken(user._id)
+    res.cookie("jwt", token, {maxAgeToken: maxAgeToken * 1000})
     // successfull status
-    res.status(201).json(user)
+    res.status(201).json({user: user._id})
   } catch(err) {
     // returning handleErrors function
     const errors = handleErrors(err)

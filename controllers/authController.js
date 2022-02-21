@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken")
 // a function for handling errors
 const handleErrors = (err) => {
   console.log(err.message, err.code)
-  let errors = { firstName: "", lastName: "", userName: "", password: ""}
+  let errors = { userName: "", password: ""}
   
   // error message for unique username
   if (err.code === 11000) {
@@ -42,10 +42,10 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.register_post = async (req, res) => {
-  const {firstName, lastName, userName, password } = req.body
+  const { userName, password } = req.body
 
   try {
-    const user = await User.create({firstName, lastName, userName, password})
+    const user = await User.create({ userName, password})
     const token = createToken(user._id)
     res.cookie("jwt", token, {maxAgeToken: maxAgeToken * 1000})
     // successfull status

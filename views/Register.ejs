@@ -11,24 +11,6 @@
     <div class="registration-body">
         <form action="/register" method="POST">
             <h2>Register</h2>
-            <label for="firstName"></label>
-            <input 
-                class="input"
-                type="text" 
-                name="firstName" 
-                id="firstName"
-                placeholder="Enter firstname"
-            />
-            <div class="line-box"><div class="line"></div></div>
-            <label for="lastName"></label>
-            <input 
-                class="input"
-                type="text" 
-                name="lastName" 
-                id="lastName"
-                placeholder="Enter lastname"
-            />
-            <div class="line-box"><div class="line"></div></div>
             <label for="userName"></label>
             <input 
                 class="input"
@@ -38,6 +20,7 @@
                 placeholder="Choose a username"
             />
             <div class="line-box"><div class="line"></div></div>
+            <div class="userNameError"></div>
             <label for="password"></label>
             <input 
                 class="input"
@@ -47,25 +30,30 @@
                 placeholder="Choose a password"
             />
             <div class="line-box"><div class="line"></div></div>
+            <div class="passwordError"></div>
             <button class="button">Register</button>
         </form>
     </div>
     <script>
         const form = document.querySelector("form")
+        const userNameError = document.querySelector("userNameError")
+        const passwordError = document.querySelector("passwordError")
+
         form.addEventListener("submit", async (e) => {
             e.preventDefault()
-
             // get values
-            const firstName = form.firstName.value
-            const lastName = form.lastName.value
             const userName = form.userName.value
             const password = form.password.value
             try {
                 const res = await fetch("/register", {
                     method: "POST",
-                    body: JSON.stringify({firstName, lastName, userName, password}),
+                    body: JSON.stringify({userName, password}),
                     headers: {"Content-Type": "application/json"}
                 })
+                const data = await res.json()
+                if (data.user) {
+                    location.assign("/")
+                }
             } catch {
                 
             }

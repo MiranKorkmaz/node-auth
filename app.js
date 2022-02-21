@@ -41,28 +41,9 @@ app.get("/", (req, res) => {
     res.send("hiiiii")
 })
 
-app.get("/set-cookies", (req, res) => {
-    res.cookie("kaknamn", false)
-    // expiration date: 30 days
-    res.cookie("isKaka", true, {maxAge: 1000 * 60 * 60 * 24 * 30 })
-    res.send("I am a cookie 🍪")
-})
-
-app.get("/read-cookies", (req, res) => {
-    const cookies = req.cookies
-    console.log(cookies)
-    res.json(cookies.newUser)
-})
 
 
-
-
-
-
-
-
-app.use("User", require("./routes/authRoutes"))
-
+app.use(authRoutes)
 
 app.listen(port, () => {
     console.log(`Port started on ${port}`)

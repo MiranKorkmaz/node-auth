@@ -5,6 +5,12 @@ const jwt = require("jsonwebtoken")
 const handleErrors = (err) => {
   console.log(err.message, err.code)
   let errors = { userName: "", password: ""}
+
+    // duplicate email error
+    if (err.code === 11000) {
+      errors.userName = 'that username is already registered';
+      return errors;
+    }
   
   // error message for unique username
   if (err.code === 11000) {
@@ -22,7 +28,7 @@ const handleErrors = (err) => {
 }
 
 // max age for token, 30 days
-const maxAgeToken = 30 * 24 * 60 * 60
+const maxAgeToken = 30 * 24 * 60 * 60 * 1000
 // create token
 // id comes from user in mongoDB
 const createToken = (id) => {
@@ -47,7 +53,7 @@ module.exports.register_post = async (req, res) => {
   try {
     const user = await User.create({ userName, password})
     const token = createToken(user._id)
-    res.cookie("jwt", token, {maxAgeToken: maxAgeToken * 1000})
+    res.cookie("jwt", token, {maxAgeToken: maxAgeToken})
     // successfull status
     res.status(201).json({user: user._id})
   } catch(err) {
@@ -61,6 +67,11 @@ module.exports.register_post = async (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   const { userName, password } = req.body
-  console.log(userName, password)
-  res.send('user login');
+
+  try {
+    const user = await User.login(userName, password)
+    res.status(200).json({user: user._id})
+  } catch (err) {
+    res.status(400).json({})
+  }
 }
